@@ -5,6 +5,7 @@ import time
 api_id = 1234567
 api_hash = ''
 channel_id = 1234567890 # group identifier - channel id or joining link
+substring = 'go'
 
 client = TelegramClient('PyMon', api_id, api_hash)
 
@@ -17,7 +18,7 @@ async def event_handler(event):
     print('time received: %s' % time.strftime("%H:%M:%S", time.localtime()))
     print('Sender: %s %s' % (sender.first_name, sender.last_name or ''))
     print(event.raw_text)
-    if(str(event.raw_text).lower().find('go') != -1):
+    if(str(event.raw_text).lower().find(substring) != -1):
         print("go message found")
         winsound.Beep(2500, 20000)
     else:
