@@ -57,15 +57,10 @@ async def event_handler(event):
 def input_listener():
     global stop_playing, playing_sound, shutdown_event, client
     while True:
-        input("Any key to stop sound: \n")
+        input("Any enter to stop sound\n")
         if playing_sound:
             print("Stopping sound...")
             stop_playing = True
-
-# Start the input listener in another thread
-input_thread = threading.Thread(target=input_listener)
-input_thread.daemon = True  # Ensures the thread exits when the main program exits
-input_thread.start()
 
 # Reconnection logic in case of network failure
 async def run_client():
@@ -73,7 +68,11 @@ async def run_client():
         try:
             # Start the client
             await client.start()
-            print("Client connected successfully.")
+            print("Client connected successfully. Listening for messages...")
+            # Start the input listener in another thread
+            input_thread = threading.Thread(target=input_listener)
+            input_thread.daemon = True  # Ensures the thread exits when the main program exits
+            input_thread.start()
             
             # Keep the client running
             await client.run_until_disconnected()
